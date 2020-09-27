@@ -3,34 +3,43 @@ if (process.env.NODE_ENV !== 'production'){
     // after this, everything would be loaded into our process.env variable in our application
 }
 
-
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 const expressLayouts = require('express-ejs-layouts')
-
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 // after this, indexRouter variable would be the 'router' variabe under index.js
 
+// set up view
 app.set('view engine', 'ejs')
-app.set('views', __dirname+'/views')
+app.set('views', __dirname + '/views')
 // this is to avoid repeating html
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 // tells the public files
-app.use(express.static('public'));
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
+// Here, it sets the routes for /
+app.use('/', indexRouter)
+// It's not enough yet, because we have to grab information from the file. By exporting
 
+app.use('/authors', authorRouter);
+// all is going to be prepended with /authors
+
+
+
+
+
+// set up mongoose
 const mongoose = require('mongoose');
 // never hardcold, be dependent
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', error => console.log(error))
 db.on('open', () => console.log('Connected to Mongoose'))
 
-
-// Here, it sets the routes for /
-app.use('/', indexRouter)
-// It's not enough yet, because we have to grab information from the file. By exporting
 
 
 app.listen(process.env.PORT || 3000, () => {
