@@ -23,7 +23,16 @@ const bookSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
-    coverImageName:{
+    // commented out at lect 4, because we are not sending an actual file
+    // coverImageName:{
+    //     type: String,
+    //     required: true
+    // },
+    coverImage:{
+        type: Buffer,
+        required: true
+    },
+    coverImageType:{
         type: String,
         required: true
     },
@@ -36,11 +45,21 @@ const bookSchema = new mongoose.Schema({
     }
 })
 // create a virtual property, derive value from the above values
+// removed at lect 4
+// bookSchema.virtual('coverImagePath').get(function () { 
+//     if(this.coverImageName != null){
+//         return path.join('/', coverImageBasePath, this.coverImageName)
+//     }
+//  })
 bookSchema.virtual('coverImagePath').get(function () { 
-    if(this.coverImageName != null){
-        return path.join('/', coverImageBasePath, this.coverImageName)
+    if(this.coverImage != null && this.coverImageType != null){
+        return `data:${this.coverImageType};charset=utf-8;base64,${this.coverImage.toString('base64')}`
     }
  })
-// Author is basically the name of the table in the DB
+
+
+// Book is basically the name of the table in the DB
 module.exports = mongoose.model('Book', bookSchema);
-module.exports.coverImageBasePath = coverImageBasePath;
+// module.exports.coverImageBasePath = coverImageBasePath;
+// This exports a static member, can be accessed by
+// Book.coverImageBasePath

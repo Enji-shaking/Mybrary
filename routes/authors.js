@@ -9,11 +9,13 @@ router.get('/', async (req, res) => {
     if(req.query.name != null && req.query.name !== ''){
         // 'i': case insensitive
         searchOptions.name = new RegExp(req.query.name, 'i')
+        // ? what does RegExp do
     }
     try {
-        // inside {} we add conditions
         const authors = await Author.find(searchOptions);
         res.render('authors/index', {authors: authors, searchOptions: req.query});
+        // inside {}, we pass the information, which would be used later by 
+        // <%= searchOptions.name %>
     } catch (error) {
          res.redirect('/');
     }
@@ -25,7 +27,6 @@ router.get('/new', (req, res)=>{
     res.render('authors/new', {
         author: new Author()
     })
-    // this would be send to the ejs
 })
 
 router.post('/', async (req, res) => {
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
         const newAuthor = await author.save();
         //  res.redirect(`authors/${newAuthor.id}`);
         // in rediect, we always input the full path, same for action
-        res.redirect(`authors`);
+        res.redirect('/author');
     }catch{
         res.render('authors/new', {
             author: author,
