@@ -48,7 +48,7 @@ const db = mongoose.connection;
 db.on('error', error => console.log(error))
 db.on('open', () => console.log('Connected to Mongoose'))
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8000, () => {
     console.log(`Server started on port 3000`);
 });
 
