@@ -1,4 +1,4 @@
-<h2>Search Authors</h2>
+<h2>Search Books</h2>
 <form action="/books" method="GET">
     <div> 
         <label for="">Title</label>
@@ -17,6 +17,10 @@
 <br>
 <div>
     <% books.forEach(book =>{ %>
-        <img height="150" width="100" src="<%= book.coverImagePath %> " alt="cover image">
+        <a href="/books/<%= book.id %>/">
+            <img height="150" width="100" src="<%= book.coverImagePath %> " alt="cover image">
+        </a>
+        <p><%= book.title %> </p>
+        <%- include('../partials/deleteForm',{url: `/books/${book.id}`}) %> 
     <% }) %> 
 </div>

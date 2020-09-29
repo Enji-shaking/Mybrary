@@ -1,0 +1,8 @@
+<h2>Edit <%= book.title %></h2>
+<form action="/books/<%= book.id %>?_method=PUT " method="POST">
+    <%- include('_form_field.ejs')%>
+    <!-- use a instead of button is because a is used to link things while button is used to interact with forms and other objects -->
+    <a href="/books/<%= book.id %> ">Cancel</a>
+    <!-- Take us back to the author show page -->
+    <button type="submit">Update</button>
+</form>
