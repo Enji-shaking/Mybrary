@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 
 // Here, it sets the routes for /, /author, /books
 // all is going to be prepended with /authors
-app.use('/', indexRouter)
+app.use('/bookshelf', indexRouter)
 app.use('/authors', authorRouter);
 app.use('/books', bookRouter);
 // It's not enough yet, because we have to grab information from the file. By exporting
@@ -49,7 +49,7 @@ db.on('error', error => console.log(error))
 db.on('open', () => console.log('Connected to Mongoose'))
 
 app.listen(process.env.PORT || 8000, () => {
-    console.log(`Server started on port 3000`);
+    console.log(`Server started on port 8000`);
 });
 
 // data base models would go it the directory "models"
