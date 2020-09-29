@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
             searchOptions: req.query
         });   
     } catch (error) {
-        res.redirect('/');
+        res.redirect('/bookshelf');
     }
 });
 
@@ -66,7 +66,7 @@ router.delete('/:id', async (req, res) => {
          
     } catch (error) {
         if(book == null){
-            res.redirect('/');
+            res.redirect('/bookshelf');
         }else{
             res.redirect(`/book/${book.id}`);
         }
@@ -84,7 +84,7 @@ router.get('/:id', async(req, res)=>{
         res.render('books/show', {book: book});
     } catch (error) {
         console.log(error);
-        res.redirect('/');
+        res.redirect('/bookshelf');
     }
 })
 
@@ -96,7 +96,7 @@ router.get('/:id/edit', async(req, res)=>{
         // const authors = await Author.find({});
         // res.render('books/edit', {book: book, authors: authors});
     } catch (error) {
-         res.redirect('/');
+         res.redirect('/bookshelf');
     }
 })
 
@@ -120,7 +120,7 @@ router.put('/:id', async(req, res)=>{
     } catch (error) {
         console.log(error);
         if(book == null || authors == null){
-            res.redirect('/');
+            res.redirect('/bookshelf');
         }else{
             renderEditPage(res, book, true);
         }
@@ -157,7 +157,7 @@ async function renderFormPage(res, book, form, hasError = false) {
 
  function saveCover(book, coverEncoded){
      // https://pqina.nl/filepond/docs/patterns/plugins/file-encode/
-    if (coverEncoded == null) return;
+    if (coverEncoded == null || coverEncoded == '') return;
     const cover = JSON.parse(coverEncoded);
     if(cover != null && imageMimeType.includes(cover.type)){
         book.coverImage = new Buffer.from(cover.data, 'base64');

@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
         // inside {}, we pass the information, which would be used later by 
         // <%= searchOptions.name %>
     } catch (error) {
-         res.redirect('/');
+         res.redirect('/bookshelf');
     }
 });
 
@@ -57,7 +57,7 @@ router.get('/:id', async (req, res)=>{
         });
     } catch (error) {
         console.log(error)
-         res.redirect('/');
+         res.redirect('/bookshelf');
     }
 })
 // show the update page
@@ -87,7 +87,7 @@ router.put('/:id', async (req, res)=>{
     } catch (error) {
         if(author == null){
             // This means we failed at finding
-             res.redirect('/');
+             res.redirect('/bookshelf');
         }else{
             res.render('authors/edit',{
                 author: author,
@@ -108,7 +108,7 @@ router.delete('/:id', async (req, res)=>{
         // go to the show page
     } catch (error) {
         if(author == null){
-            res.redirect('/');
+            res.redirect('/bookshelf');
         }else{
              res.redirect(`/authors/${author.id}`);
         }
